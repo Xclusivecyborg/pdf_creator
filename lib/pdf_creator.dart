@@ -12,11 +12,13 @@ class PdfCreator {
   ///THIS METHOD IS USED TO CREATE OUR PDF
   ///WE USE THE WIDGEETS FROM THE PDF PACKAGE TO CREATE OUR PDF AND RETURN THE FILE WHEN
   ///WE ARE DONE.
+  ///
   static Future<File?> createPdf({
     required PdfReceipt receipt,
   }) async {
     final pdf = Document();
 
+///WE MAP THE VALUES FROM OUR RECEIPT OBJECT TO OUR PDF WIDGETS      
     List<Map<String, dynamic>> details = [
       {
         "name": "Transaction reference",
@@ -41,6 +43,9 @@ class PdfCreator {
     Uint8List logoBytes = logo.buffer.asUint8List();
     MemoryImage logoImage = MemoryImage(logoBytes);
 
+
+///WE CALL THE addPage METHOD ON OUR PDF OBJECT TO CREATE A PAGE THAT WILL TAKE IN THE 
+///DETAILS FROM OUR RECEIPT AND THE FLUTTER LOGO WE LOADED ABOVE.  
     pdf.addPage(
       pdfPage(logoImage, receipt, details),
     );
@@ -60,8 +65,10 @@ class PdfCreator {
   }
 
 //THIS METHODS SAVES OUR CREATED PDF INTO OUR DEVICE'S STORAGE
-  static Future<File> saveDocument(
-      {required String name, required Document pdf}) async {
+  static Future<File> saveDocument({
+    required String name,
+    required Document pdf,
+  }) async {
     final bytes = await pdf.save();
     final dir = await getApplicationDocumentsDirectory();
     final file = File('${dir.path}/$name');

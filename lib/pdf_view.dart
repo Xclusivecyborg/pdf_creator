@@ -10,15 +10,21 @@ class PdfView extends StatefulWidget {
 }
 
 class _PdfViewState extends State<PdfView> {
+  //WE CREATE A PDFRECEIPT OBJECT AND PASS IN THE VALUES WE WANT TO DISPLAY ON THE SCREEN
+  final PdfReceipt receipt = PdfReceipt(
+    reference: "123456789",
+    date: "2022-01-01",
+    amount: "\$ 4,000.00",
+    sender: "Ayodeji Ogundairo",
+    beneficiary: "Flutter stores",
+  );
+
+  //WE CREATE A BOOLEAN VARIABLE THAT HELPS US MANAGE THE STATE OF OUR VIEW
+  //WHEN WE ARE CREATING THE PDF WE SET IT TO TRUE AND WHEN WE ARE DONE WE SET IT TO FALSE
+  //WHEN THIS IS TRUE A CIRCULAR_PROGRESS_INDICATOR IS DISPLAYED IN PLACE OF OUR ELEVATED_BUTTON
   bool isCreating = false;
   @override
   Widget build(BuildContext context) {
-    final PdfReceipt receipt = PdfReceipt(
-        reference: "123456789",
-        date: "2022-01-01",
-        amount: "\$ 4,000.00",
-        sender: "Ayodeji Ogundairo",
-        beneficiary: "Flutter stores");
     return Scaffold(
       appBar: AppBar(
         title: const Text('PDF View'),
@@ -29,12 +35,15 @@ class _PdfViewState extends State<PdfView> {
             : ElevatedButton(
                 child: const Text('Open PDF'),
                 onPressed: () async {
+                  ///here we set the isCreating variable to true so that we can display a circular progress indicator
                   setState(() {
                     isCreating = true;
                   });
                   final file = await PdfCreator.createPdf(
                     receipt: receipt,
                   );
+
+                  ///here we set the isCreating variable to false so that we can display the button again
                   if (file != null) {
                     setState(() {
                       isCreating = false;
