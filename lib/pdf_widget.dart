@@ -2,6 +2,8 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:pdf_creator/pdf_receipt_model.dart';
 
+
+///THIS IS THE EIDGET USED TO DISPLAY OUR RECEIPT DETAILS 
 Page pdfPage(MemoryImage logoImage, PdfReceipt receipt,
     List<Map<String, dynamic>> details) {
   return Page(
